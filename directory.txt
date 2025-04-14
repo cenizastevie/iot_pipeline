@@ -1,0 +1,39 @@
+iot-real-time-data-pipeline/
+│
+├── kubernetes/
+│   ├── namespace.yaml
+│   ├── kafka-deployment.yaml
+│   ├── kafka-service.yaml
+│   ├── spark-deployment.yaml
+│   ├── spark-service.yaml
+│   ├── mongodb-deployment.yaml
+│   ├── mongodb-service.yaml
+│   ├── mongodb-secret.yaml
+│   ├── simulator-deployment.yaml
+│   ├── grafana-deployment.yaml
+│   ├── prometheus-deployment.yaml
+│
+├── cloudformation/
+│   ├── vpc.yaml
+│   ├── eks-cluster.yaml
+│   ├── ecr.yaml
+│   ├── secrets-manager.yaml
+│   ├── alb.yaml
+│
+├── src/
+│   ├── simulator/
+│   │   ├── simulator.py
+│   ├── spark/
+│   │   ├── spark-streaming-job.py
+│
+├── data/
+│   ├── sample-data.json
+│   ├── processed-data/
+│       └── partition_date=2025-04-14/
+│
+├── scripts/
+│   ├── build-docker.sh
+│   ├── deploy.sh
+│
+├── README.md
+├── LICENSE
