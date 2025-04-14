@@ -29,7 +29,7 @@ This IoT data pipeline is designed for real-time ingestion, processing, and stor
 - **IoT Data Simulator:** Generates mock sensor data using Python and sends it to Kafka topics.
 - **Kafka Integration:** Real-time data ingestion with Kafka.
 - **Spark Streaming:** Processes data streams to detect anomalies and trends.
-- **NoSQL Database:** Scalable storage solution with DynamoDB.
+- **NoSQL Database:** Scalable storage solution with DynamoDB or MongoDB.
 - **Kubernetes Orchestration:** Manages containerized applications for Spark and Kafka.
 - **AWS CloudFormation Template:** Automates infrastructure setup on AWS.
 - **Monitoring and Visualization:** Grafana dashboards and alerts for real-time analytics.
@@ -61,3 +61,55 @@ This IoT data pipeline is designed for real-time ingestion, processing, and stor
    ```bash
    git clone https://github.com/yourusername/iot-real-time-data-pipeline.git
    cd iot-real-time-data-pipeline
+   ```
+
+### Running the Project
+1. Start the IoT Data Simulator:
+   ```bash
+   python simulator.py
+   ```
+2. Start Kafka and create necessary topics:
+   ```bash
+   ./bin/kafka-server-start.sh config/server.properties
+   ./bin/kafka-topics.sh --create --topic sensor-data --bootstrap-server localhost:9092
+   ```
+3. Deploy the Spark Streaming application on Kubernetes:
+   ```bash
+   kubectl apply -f spark-job.yaml
+   ```
+4. Monitor the pipeline using Grafana dashboards.
+
+---
+
+## Use Case
+This pipeline is tailored for horse racing analytics, leveraging sensor data to monitor:
+- **Soil Conditions:** Track moisture, compaction, and temperature for optimal racing surfaces.
+- **Weather Monitoring:** Real-time updates on temperature, humidity, and wind conditions.
+- **Performance Insights:** Analyze horse performance metrics in relation to environmental factors.
+
+This enables race organizers and trainers to make data-driven decisions for safety and performance optimization.
+
+---
+
+## Technology Stack
+- **Programming Language:** Python
+- **Streaming Platform:** Apache Kafka
+- **Processing Framework:** Apache Spark Streaming
+- **Database:** AWS DynamoDB or MongoDB
+- **Container Orchestration:** Kubernetes (AWS EKS)
+- **Visualization:** Grafana
+- **Infrastructure Automation:** AWS CloudFormation
+
+---
+
+## Contributing
+Contributions are welcome! Please follow these steps:
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Commit your changes and push them to your fork.
+4. Submit a pull request with a detailed description of your changes.
+
+---
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
