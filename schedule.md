@@ -25,6 +25,7 @@
 
 **Deliverables:**
 - A fully functional EKS cluster ready to deploy applications.
+- **File:** `cloudformation/eks.yaml`
 
 ---
 

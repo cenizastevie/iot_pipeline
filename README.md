@@ -13,6 +13,7 @@ This repository demonstrates a scalable IoT data processing system using Python,
    - [Prerequisites](#prerequisites)
    - [Installation](#installation)
    - [Running the Project](#running-the-project)
+   - [Running the CloudFormation Stacks](#running-the-cloudformation-stacks)
 5. [Use Case](#use-case)
 6. [Technology Stack](#technology-stack)
 7. [Contributing](#contributing)
@@ -81,6 +82,58 @@ This IoT data pipeline is designed for real-time ingestion, processing, and stor
 
 ---
 
+### Running the CloudFormation Stacks
+
+1. **Deploy the VPC Stack:**
+   Run the following command to create the VPC and networking components:
+   ```bash
+   aws cloudformation create-stack --stack-name iot-vpc-stack --template-body file://cloudformation/vpc.yaml --capabilities CAPABILITY_NAMED_IAM --profile iot-profile
+   ```
+
+2. **Deploy the EKS Stack:**
+   After the VPC stack is successfully created, run the following command to deploy the EKS cluster:
+   ```bash
+   aws cloudformation create-stack --stack-name iot-eks-stack --template-body file://cloudformation/eks.yaml --capabilities CAPABILITY_NAMED_IAM --profile iot-profile
+   ```
+
+3. **Verify the Stacks:**
+   Use the following command to check the status of the stacks:
+   ```bash
+   aws cloudformation describe-stacks --stack-name <stack-name> --profile iot-profile
+   ```
+
+4. **Delete the Stacks:**
+   To delete the CloudFormation stacks, use the following commands:
+   - Delete the EKS stack:
+     ```bash
+     aws cloudformation delete-stack --stack-name iot-eks-stack --profile iot-profile
+     ```
+   - Delete the VPC stack:
+     ```bash
+     aws cloudformation delete-stack --stack-name iot-vpc-stack --profile iot-profile
+     ```
+   Verify the deletion status using:
+   ```bash
+   aws cloudformation describe-stacks --stack-name <stack-name> --profile iot-profile
+   ```
+
+#### Required IAM Permissions
+Ensure that the IAM user or role executing the CloudFormation stacks has the following permissions:
+- `iam:CreateRole`
+- `iam:DeleteRole`
+- `iam:AttachRolePolicy`
+- `iam:DetachRolePolicy`
+- `iam:PassRole`
+- `ec2:*` (for VPC and networking resources)
+- `eks:*` (for EKS cluster creation)
+- `tag:GetResources`
+- `tag:TagResources`
+- `tag:UntagResources`
+
+Refer to the [AWS Knowledge Center](https://repost.aws/knowledge-center/cloudformation-tagging-permission-error) for more details on resolving tagging permission errors.
+
+---
+
 ## Use Case
 This pipeline is tailored for horse racing analytics, leveraging sensor data to monitor:
 - **Soil Conditions:** Track moisture, compaction, and temperature for optimal racing surfaces.
@@ -113,3 +166,5 @@ Contributions are welcome! Please follow these steps:
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+aws cloudformation create-stack --stack-name iot-vpc-stack --template-body file://vpc.yaml --capabilities CAPABILITY_NAMED_IAM --profile iot-profile
