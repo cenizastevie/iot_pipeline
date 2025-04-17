@@ -43,7 +43,52 @@
 
 ---
 
-## Week 4: Application Load Balancer (ALB)
+## Week 4: CI/CD Pipeline
+**Goal:** Automate the deployment process.
+
+**Tasks:**
+- Set up a CodePipeline with the following stages:
+  - **Source Stage:** Pull code from GitHub or CodeCommit.
+  - **Build Stage:** Use CodeBuild to:
+    - Build Docker images for applications.
+    - Push images to ECR.
+  - **Deploy Stage:** Deploy Kubernetes manifests to the EKS cluster using CodeDeploy or a custom script.
+- Create a `buildspec.yml` file for CodeBuild to define build steps.
+- Ensure IAM roles and permissions are in place for CodePipeline and CodeBuild.
+
+**Deliverables:**
+- A fully functional CI/CD pipeline automating the build and deployment process.
+
+---
+
+## Week 5: IoT Simulator Deployment
+**Goal:** Deploy the IoT Simulator to generate mock sensor data.
+
+**Tasks:**
+- Write a Kubernetes manifest (`simulator-deployment.yaml`) for the IoT Simulator.
+- Define resource requests and limits for the IoT Simulator pods.
+- Deploy the IoT Simulator to the EKS cluster.
+
+**Deliverables:**
+- IoT Simulator running on EKS, generating mock sensor data.
+
+---
+
+## Week 6: Spark Pods Deployment
+**Goal:** Deploy Spark jobs for real-time data processing.
+
+**Tasks:**
+- Write Kubernetes manifests (`spark-deployment.yaml`) for Spark driver and executor pods.
+- Define resource requests and limits for Spark pods.
+- Deploy Spark jobs to the EKS cluster.
+- Test the pipeline end-to-end (IoT Simulator → Kafka → Spark → DynamoDB).
+
+**Deliverables:**
+- Spark pods running on EKS, processing real-time data streams.
+
+---
+
+## Week 7: Application Load Balancer (ALB)
 **Goal:** Manage external traffic for services.
 
 **Tasks:**
@@ -55,7 +100,7 @@
 
 ---
 
-## Week 5: Monitoring, Logging, and Auto Scaling
+## Week 8: Monitoring, Logging, and Auto Scaling
 **Goal:** Set up monitoring, logging, and scaling.
 
 **Tasks:**
@@ -79,51 +124,6 @@
 
 **Deliverables:**
 - OpenSearch domain ready to ingest and index data.
-
----
-
-## Week 6: CI/CD Pipeline
-**Goal:** Automate the deployment process.
-
-**Tasks:**
-- Set up a CodePipeline with the following stages:
-  - **Source Stage:** Pull code from GitHub or CodeCommit.
-  - **Build Stage:** Use CodeBuild to:
-    - Build Docker images for applications.
-    - Push images to ECR.
-  - **Deploy Stage:** Deploy Kubernetes manifests to the EKS cluster using CodeDeploy or a custom script.
-- Create a `buildspec.yml` file for CodeBuild to define build steps.
-- Ensure IAM roles and permissions are in place for CodePipeline and CodeBuild.
-
-**Deliverables:**
-- A fully functional CI/CD pipeline automating the build and deployment process.
-
----
-
-## Week 7: IoT Simulator Deployment
-**Goal:** Deploy the IoT Simulator to generate mock sensor data.
-
-**Tasks:**
-- Write a Kubernetes manifest (`simulator-deployment.yaml`) for the IoT Simulator.
-- Define resource requests and limits for the IoT Simulator pods.
-- Deploy the IoT Simulator to the EKS cluster.
-
-**Deliverables:**
-- IoT Simulator running on EKS, generating mock sensor data.
-
----
-
-## Week 8: Spark Pods Deployment
-**Goal:** Deploy Spark jobs for real-time data processing.
-
-**Tasks:**
-- Write Kubernetes manifests (`spark-deployment.yaml`) for Spark driver and executor pods.
-- Define resource requests and limits for Spark pods.
-- Deploy Spark jobs to the EKS cluster.
-- Test the pipeline end-to-end (IoT Simulator → Kafka → Spark → DynamoDB).
-
-**Deliverables:**
-- Spark pods running on EKS, processing real-time data streams.
 
 ---
 

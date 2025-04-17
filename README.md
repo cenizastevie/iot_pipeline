@@ -96,13 +96,19 @@ This IoT data pipeline is designed for real-time ingestion, processing, and stor
    aws cloudformation create-stack --stack-name iot-eks-stack --template-body file://cloudformation/eks.yaml --capabilities CAPABILITY_NAMED_IAM --profile iot-profile
    ```
 
-3. **Verify the Stacks:**
+3. **Deploy the ECR Stack:**
+   Run the following command to create the ECR repository:
+   ```bash
+   aws cloudformation create-stack --stack-name iot-ecr-stack --template-body file://cloudformation/ecr.yaml --capabilities CAPABILITY_NAMED_IAM --profile iot-profile
+   ```
+
+4. **Verify the Stacks:**
    Use the following command to check the status of the stacks:
    ```bash
    aws cloudformation describe-stacks --stack-name <stack-name> --profile iot-profile
    ```
 
-4. **Delete the Stacks:**
+5. **Delete the Stacks:**
    To delete the CloudFormation stacks, use the following commands:
    - Delete the EKS stack:
      ```bash
@@ -111,6 +117,10 @@ This IoT data pipeline is designed for real-time ingestion, processing, and stor
    - Delete the VPC stack:
      ```bash
      aws cloudformation delete-stack --stack-name iot-vpc-stack --profile iot-profile
+     ```
+   - Delete the ECR stack:
+     ```bash
+     aws cloudformation delete-stack --stack-name iot-ecr-stack --profile iot-profile
      ```
    Verify the deletion status using:
    ```bash
@@ -129,6 +139,16 @@ Ensure that the IAM user or role executing the CloudFormation stacks has the fol
 - `tag:GetResources`
 - `tag:TagResources`
 - `tag:UntagResources`
+
+#### Additional Required IAM Permissions
+Ensure that the IAM user or role executing the ECR stack has the following permissions:
+- `ecr:CreateRepository`
+- `ecr:DeleteRepository`
+- `ecr:PutLifecyclePolicy`
+- `ecr:GetLifecyclePolicy`
+- `ecr:ListTagsForResource`
+- `ecr:TagResource`
+- `ecr:UntagResource`
 
 Refer to the [AWS Knowledge Center](https://repost.aws/knowledge-center/cloudformation-tagging-permission-error) for more details on resolving tagging permission errors.
 
