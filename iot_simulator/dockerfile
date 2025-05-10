@@ -1,0 +1,5 @@
+FROM python:3.10-slim
+WORKDIR /app
+COPY iot_simulator_kafka.py .
+RUN pip install kafka-python
+CMD ["python", "iot_simulator_kafka.py"]
