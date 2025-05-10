@@ -48,7 +48,7 @@
 
 **Tasks:**
 - Set up a CodePipeline with the following stages:
-  - **Source Stage:** Pull code from GitHub or CodeCommit.
+  - **Source Stage:** Pull code from GitHub or CodeCommit using the provided CodeStar connection ARN.
   - **Build Stage:** Use CodeBuild to:
     - Build Docker images for applications.
     - Push images to ECR.
@@ -58,6 +58,7 @@
 
 **Deliverables:**
 - A fully functional CI/CD pipeline automating the build and deployment process.
+- **File:** `cloudformation/ci_cd_pipeline.yaml`
 
 ---
 

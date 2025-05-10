@@ -127,6 +127,24 @@ This IoT data pipeline is designed for real-time ingestion, processing, and stor
    aws cloudformation describe-stacks --stack-name <stack-name> --profile iot-profile
    ```
 
+6. **Deploy the CI/CD Stack:**
+   Run the following command to deploy the CI/CD pipeline stack:
+   ```bash
+   aws cloudformation deploy ^
+     --template-file c:\Users\Steven\Desktop\Projects\iot_pipeline\cloudformation\ci_cd_pipeline.yaml ^
+     --stack-name iot_ci_cd_stack ^
+     --parameter-overrides ^
+         CodeStarConnectionArn=%CODESTAR_CONNECTION_ARN% ^
+         RepositoryName=%REPOSITORY_NAME% ^
+     --capabilities CAPABILITY_NAMED_IAM
+   ```
+
+7. **Delete the CI/CD Stack:**
+   To delete the CI/CD pipeline stack, use the following command:
+   ```bash
+   aws cloudformation delete-stack --stack-name iot_ci_cd_stack --profile iot-profile
+   ```
+
 #### Required IAM Permissions
 Ensure that the IAM user or role executing the CloudFormation stacks has the following permissions:
 - `iam:CreateRole`
