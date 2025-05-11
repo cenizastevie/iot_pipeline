@@ -1,0 +1,30 @@
+FROM bitnami/spark:3.5.0
+
+# Set environment variables
+ENV SPARK_VERSION=3.5.0 \
+    HADOOP_VERSION=3 \
+    KAFKA_VERSION=0-10 \
+    COMMONS_POOL2_VERSION=2.11.1
+
+USER root
+RUN install_packages --no-install-recommends curl
+
+# Add Kafka connector JAR to Spark's classpath
+RUN mkdir -p /opt/bitnami/spark/jars && \
+    # Download the Kafka connector for Spark
+    curl -L -o /opt/bitnami/spark/jars/spark-sql-kafka-${KAFKA_VERSION}_${HADOOP_VERSION}.jar \
+    https://repo1.maven.org/maven2/org/apache/spark/spark-sql-kafka-0-10_2.12/${SPARK_VERSION}/spark-sql-kafka-0-10_2.12-${SPARK_VERSION}.jar && \
+    curl -L -o /opt/bitnami/spark/jars/kafka-clients.jar \
+    https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/3.5.0/kafka-clients-3.5.0.jar && \
+    curl -L -o /opt/bitnami/spark/jars/spark-token-provider-kafka-0-10_2.12-${SPARK_VERSION}.jar \
+    https://repo1.maven.org/maven2/org/apache/spark/spark-token-provider-kafka-0-10_2.12/${SPARK_VERSION}/spark-token-provider-kafka-0-10_2.12-${SPARK_VERSION}.jar && \
+    # Download commons-pool2 JAR
+    curl -L -o /opt/bitnami/spark/jars/commons-pool2-${COMMONS_POOL2_VERSION}.jar \
+    https://repo1.maven.org/maven2/org/apache/commons/commons-pool2/${COMMONS_POOL2_VERSION}/commons-pool2-${COMMONS_POOL2_VERSION}.jar
+
+# Copy your Spark application
+COPY spark_streaming_kafka.py /app/spark_streaming_kafka.py
+WORKDIR /app
+
+# Run the Spark job
+ENTRYPOINT ["/opt/bitnami/spark/bin/spark-submit", "--master", "local[*]", "/app/spark_streaming_kafka.py"]
