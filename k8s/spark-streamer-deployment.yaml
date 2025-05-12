@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-streamer
+  labels:
+    app: spark-streamer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spark-streamer
+  template:
+    metadata:
+      labels:
+        app: spark-streamer
+    spec:
+      containers:
+      - name: spark-streamer
+        image: 211626350366.dkr.ecr.us-east-1.amazonaws.com/spark-streamer-repo:latest
+        ports:
+        - containerPort: 7077

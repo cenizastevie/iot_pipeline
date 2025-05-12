@@ -1,8 +1,32 @@
 Resources:
-  ECRRepository:
+  IoTSimulatorRepository:
     Type: AWS::ECR::Repository
     Properties:
-      RepositoryName: iot-pipeline-repo
+      RepositoryName: iot-simulator-repo
+      LifecyclePolicy:
+        LifecyclePolicyText: |
+          {
+            "rules": [
+              {
+                "rulePriority": 1,
+                "description": "Expire untagged images after 30 days",
+                "selection": {
+                  "tagStatus": "untagged",
+                  "countType": "sinceImagePushed",
+                  "countUnit": "days",
+                  "countNumber": 30
+                },
+                "action": {
+                  "type": "expire"
+                }
+              }
+            ]
+          }
+
+  SparkStreamerRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: spark-streamer-repo
       LifecyclePolicy:
         LifecyclePolicyText: |
           {
@@ -24,7 +48,12 @@ Resources:
           }
 
 Outputs:
-  ECRRepositoryUri:
-    Value: !GetAtt ECRRepository.RepositoryUri
+  IoTSimulatorRepositoryUri:
+    Value: !GetAtt IoTSimulatorRepository.RepositoryUri
     Export:
-      Name: ECRRepositoryUri
+      Name: IoTSimulatorRepositoryUri
+
+  SparkStreamerRepositoryUri:
+    Value: !GetAtt SparkStreamerRepository.RepositoryUri
+    Export:
+      Name: SparkStreamerRepositoryUri

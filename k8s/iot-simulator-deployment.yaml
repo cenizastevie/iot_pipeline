@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iot-simulator
+  labels:
+    app: iot-simulator
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: iot-simulator
+  template:
+    metadata:
+      labels:
+        app: iot-simulator
+    spec:
+      containers:
+      - name: iot-simulator
+        image: 211626350366.dkr.ecr.us-east-1.amazonaws.com/iot-simulator-repo:latest
+        ports:
+        - containerPort: 8080
