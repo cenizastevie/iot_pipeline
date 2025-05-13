@@ -4,12 +4,21 @@ import json, time, random, os
 KAFKA_BROKER = os.environ.get("KAFKA_BROKER", "localhost:9092")
 TOPIC = os.environ.get("KAFKA_TOPIC", "iot-data")
 
+# Validate Kafka broker and topic
+if not KAFKA_BROKER:
+    raise ValueError("KAFKA_BROKER environment variable is not set.")
+if not TOPIC:
+    raise ValueError("KAFKA_TOPIC environment variable is not set.")
+
 print(f"Connecting to Kafka at {KAFKA_BROKER}, topic: {TOPIC}")
 
-producer = KafkaProducer(
-    bootstrap_servers=KAFKA_BROKER,
-    value_serializer=lambda v: json.dumps(v).encode("utf-8")
-)
+try:
+    producer = KafkaProducer(
+        bootstrap_servers=KAFKA_BROKER,
+        value_serializer=lambda v: json.dumps(v).encode("utf-8")
+    )
+except Exception as e:
+    raise RuntimeError(f"Failed to connect to Kafka broker at {KAFKA_BROKER}: {e}")
 
 def generate_sensor_data():
     return {

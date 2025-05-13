@@ -19,3 +19,8 @@ spec:
         image: 211626350366.dkr.ecr.us-east-1.amazonaws.com/spark-streamer-repo:latest
         ports:
         - containerPort: 7077
+        env:
+        - name: KAFKA_BROKER
+          value: "kafka:9092"
+        - name: KAFKA_TOPIC
+          value: "iot-data"
