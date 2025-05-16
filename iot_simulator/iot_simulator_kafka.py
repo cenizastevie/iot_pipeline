@@ -1,5 +1,6 @@
 from kafka import KafkaProducer
 import json, time, random, os
+import logging
 
 KAFKA_BROKER = os.environ.get("KAFKA_BROKER", "localhost:9092")
 TOPIC = os.environ.get("KAFKA_TOPIC", "iot-data")
@@ -25,12 +26,20 @@ CITIES = {
     "R6ZN": "Cape Town"
 }
 
+# Configure logging
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger("IoTSimulatorKafka")
+
+logger.info("Starting IoT Simulator Kafka application.")
+
 try:
     producer = KafkaProducer(
         bootstrap_servers=KAFKA_BROKER,
         value_serializer=lambda v: json.dumps(v).encode("utf-8")
     )
+    logger.info(f"Kafka broker: {KAFKA_BROKER}, Topic: {TOPIC}")
 except Exception as e:
+    logger.error(f"Failed to connect to Kafka broker at {KAFKA_BROKER}: {e}", exc_info=True)
     raise RuntimeError(f"Failed to connect to Kafka broker at {KAFKA_BROKER}: {e}")
 
 def generate_sensor_data():
@@ -46,8 +55,12 @@ def generate_sensor_data():
 while True:
     data = generate_sensor_data()
     try:
+        # Simulate random errors
+        if random.random() < 0.1:  # 10% chance of raising an error
+            raise RuntimeError("Simulated random error in IoT Simulator.")
+
         producer.send(TOPIC, data)
-        print(f"Sent to Kafka: {data}")
+        logger.info(f"Sent to Kafka: {data}")
     except Exception as e:
-        print(f"Kafka error: {e}")
+        logger.error(f"Kafka error: {e}", exc_info=True)
     time.sleep(2)

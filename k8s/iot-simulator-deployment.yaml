@@ -5,7 +5,7 @@ metadata:
   labels:
     app: iot-simulator
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: iot-simulator
@@ -21,6 +21,15 @@ spec:
         - containerPort: 8080
         env:
         - name: KAFKA_BROKER
-          value: "kafka:9092"
+          value: "kafka-cluster-kafka-bootstrap.default.svc.cluster.local:9092"
         - name: KAFKA_TOPIC
           value: "iot-data"
+        - name: KAFKA_SECURITY_PROTOCOL
+          value: "SASL_PLAINTEXT"
+        - name: KAFKA_SASL_MECHANISM
+          value: "SCRAM-SHA-256"
+        - name: KAFKA_SASL_JAAS_CONFIG
+          valueFrom:
+            secretKeyRef:
+              name: kafka-user-passwords
+              key: client-passwords

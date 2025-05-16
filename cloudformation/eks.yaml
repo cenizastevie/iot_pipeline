@@ -57,10 +57,32 @@ Resources:
         - !ImportValue PrivateSubnetId
       ScalingConfig:
         MinSize: 2
-        MaxSize: 5
-        DesiredSize: 3
+        MaxSize: 10
+        DesiredSize: 5
       InstanceTypes:
-        - t3.medium
+        - t3.large
+
+  EKSAdditionalRBACPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: EKSAdditionalRBACPolicy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: Statement1
+            Effect: Allow
+            Action:
+              - "eks:DescribeNodegroup"
+              - "eks:ListNodegroups"
+              - "eks:DescribeCluster"
+              - "eks:ListClusters"
+              - "eks:AccessKubernetesAPI"
+              - "ssm:GetParameter"
+              - "eks:ListUpdates"
+              - "eks:ListFargateProfiles"
+            Resource: "*"
+      Roles:
+        - !Ref EKSClusterRole
 
 Outputs:
   EKSClusterName:
