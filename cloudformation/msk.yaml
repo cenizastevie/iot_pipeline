@@ -1,0 +1,32 @@
+Resources:
+  MSKCluster:
+    Type: AWS::MSK::Cluster
+    Properties:
+      ClusterName: IoT-MSK-Cluster
+      KafkaVersion: 2.8.1
+      NumberOfBrokerNodes: 4
+      BrokerNodeGroupInfo:
+        InstanceType: kafka.t3.small
+        ClientSubnets:
+          - !ImportValue PublicSubnetId
+          - !ImportValue PrivateSubnetId
+        SecurityGroups:
+          - !ImportValue MSKSecurityGroupId
+      EncryptionInfo:
+        EncryptionInTransit:
+          ClientBroker: TLS
+          InCluster: true
+      EnhancedMonitoring: PER_TOPIC_PER_BROKER
+
+  EKSMSKCommunicationPolicy:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !ImportValue MSKSecurityGroupId
+      SourceSecurityGroupId: !ImportValue EKSSecurityGroupId
+      IpProtocol: -1
+
+Outputs:
+  MSKClusterArn:
+    Value: !Ref MSKCluster
+    Export:
+      Name: MSKClusterArn

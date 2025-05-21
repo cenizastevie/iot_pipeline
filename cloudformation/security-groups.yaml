@@ -1,0 +1,23 @@
+Resources:
+  EKSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: EKS Cluster Security Group
+      VpcId: !ImportValue VPCId
+
+  MSKSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: MSK Security Group
+      VpcId: !ImportValue VPCId
+
+Outputs:
+  EKSSecurityGroupId:
+    Value: !Ref EKSSecurityGroup
+    Export:
+      Name: EKSSecurityGroupId
+
+  MSKSecurityGroupId:
+    Value: !Ref MSKSecurityGroup
+    Export:
+      Name: MSKSecurityGroupId
